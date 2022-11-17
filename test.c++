@@ -1,17 +1,27 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-stack<long long> dango_stack;
+vector<long long> dango_stack;
+vector<long long> dango_stack_sum;
 
 void put_dango(){
     long long dango_weight;
     scanf("%lld", &dango_weight);
-    dango_stack.push(dango_weight);
+    if(dango_stack_sum.empty()){
+        dango_stack.push_back(dango_weight);
+        dango_stack_sum.push_back(dango_weight);
+    }
+    else{
+        long long pre_dango = dango_stack_sum[dango_stack_sum.size()-1];
+        dango_stack.push_back(dango_weight);
+        dango_stack_sum.push_back(dango_weight + pre_dango);
+    }
 }
 
 void take_dango(){
-    printf("%lld\n", dango_stack.top());
-    dango_stack.pop();
+    printf("%lld\n", dango_stack[dango_stack.size()-1]);
+    dango_stack.pop_back();
+    dango_stack_sum.pop_back();
 }
 
 void CC(){
@@ -20,9 +30,10 @@ void CC(){
     int x;
     scanf("%d", &x);
     for(int i = 0; i < x; i++){
-        vec.push_back(dango_stack.top());
-        tmp.push(dango_stack.top());
-        dango_stack.pop();
+        vec.push_back(dango_stack[dango_stack.size()-1]);
+        tmp.push(dango_stack[dango_stack.size()-1]);
+        dango_stack.pop_back();
+        dango_stack_sum.pop_back();
     }
     sort(vec.begin(), vec.end());
     int k;
@@ -41,7 +52,14 @@ void CC(){
     long long target = vec[vec.size() - a];
     for(int i = 0; i < x; i++){
         if(tmp.top() < target){
-            dango_stack.push(tmp.top());
+            dango_stack.push_back(tmp.top());
+            if(dango_stack_sum.empty()){
+                dango_stack_sum.push_back(tmp.top());
+            }
+            else{
+                long long pre_dango = dango_stack_sum[dango_stack_sum.size()-1];
+                dango_stack_sum.push_back(tmp.top() + pre_dango);
+            }
         }
         tmp.pop();
     }
@@ -49,26 +67,21 @@ void CC(){
 }
 
 void DD(){
-    stack<long long> tmp;
     long long dango_sum = 0;
     int x;
     scanf("%d", &x);
-    for(int i = 0; i < x; i++){
-        dango_sum += dango_stack.top();
-        tmp.push(dango_stack.top());
-        dango_stack.pop();
+    if(x == dango_stack_sum.size()){
+        printf("%lld\n", dango_stack_sum[dango_stack_sum.size()-1]);
     }
-    printf("%lld\n", dango_sum);
-    for(int i = 0; i < x; i++){
-        dango_stack.push(tmp.top());
-        tmp.pop();
+    else{
+        printf("%lld\n", dango_stack_sum[dango_stack_sum.size()-1] - dango_stack_sum[dango_stack_sum.size()-x-1]);
     }
 }
 
 int main(){
     int m;
     scanf("%d", &m);
-    char operation[10]; 
+    char operation[10];
     for(int i = 0; i < m; i++){
         scanf("%s", operation);
         if(strcmp(operation, "PUT") == 0){

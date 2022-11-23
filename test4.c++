@@ -10,11 +10,10 @@ typedef struct Edge{
     long long toll;
 }edge;
 
-typedef struct Tree{
-    int parent;
-    long long l;
-    long long t;
-}tree;
+typedef struct Length_and_sum{
+    long long max_length;
+    long long toll_sum;
+}length_and_sum;
 
 struct cmp_weight{
     bool operator()(edge a, edge b){
@@ -31,17 +30,16 @@ struct cmp_weight{
 };
 
 vector<edge> adj_map[MAXIN];
-tree mst[MAXIN];
+length_and_sum max_len_sum[MAXIN];
 int visited[MAXIN];
 priority_queue<edge, vector<edge>, cmp_weight> pq;
 
 void find_MST(){
+    visited[0] = 1;
+    for(auto i : adj_map[0]){
+        pq.push(i);
+    }
     edge tmp;
-    tmp.source = -1;
-    tmp.dest = 0;
-    tmp.length = 0;
-    tmp.toll = 0;
-    pq.push(tmp);
     while(!pq.empty()){
         tmp = pq.top();
         pq.pop();
@@ -49,33 +47,25 @@ void find_MST(){
             continue;
         }
         visited[tmp.dest] = 1;
-        mst[tmp.dest].parent = tmp.source;
-        mst[tmp.dest].l = tmp.length;
-        mst[tmp.dest].t = tmp.toll;
+        if(tmp.source == 0 || tmp.length > max_len_sum[tmp.source].max_length){
+            max_len_sum[tmp.dest].max_length = tmp.length;
+        }
+        else{
+            max_len_sum[tmp.dest].max_length = max_len_sum[tmp.source].max_length;
+        }
+        max_len_sum[tmp.dest].toll_sum = tmp.toll;
         for(auto i : adj_map[tmp.dest]){
             if(!visited[i.dest]){
+                if(i.length == max_len_sum[tmp.dest].max_length){
+                    i.toll += max_len_sum[tmp.dest].toll_sum;
+                }
+                else if(i.length < max_len_sum[tmp.dest].max_length){
+                    i.toll = max_len_sum[tmp.dest].toll_sum;
+                }
                 pq.push(i);
             }
         }
     }
-}
-
-long long toll_sum(int a){
-    int tmp = a;
-    int max_len = -1;
-    long long t_sum = 0;
-    while(tmp != -1){
-        if(mst[tmp].l > max_len){
-            max_len = mst[tmp].l;
-            t_sum = mst[tmp].t;
-        }
-        else if(mst[tmp].l == max_len){
-            t_sum += mst[tmp].t;
-        }
-        tmp = mst[tmp].parent;
-    }
-    
-    return t_sum;
 }
 
 int main(){
@@ -95,8 +85,7 @@ int main(){
     find_MST();
     long long ans = 0;
     for(int i = 1; i < n; i++){
-        ans += toll_sum(i);
-        printf("%lld\n", ans);
+        ans += max_len_sum[i].toll_sum;
     }
     printf("%lld\n", ans);
 

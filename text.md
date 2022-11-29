@@ -13,8 +13,17 @@ Problem 5:<br>
 (a) False, counterexample:<br>
 <img src="./ada_6.jpg" style="zoom:15%" /><br>
 (b) Ans: R13 Minquan W. Rd., Cost: 45$<br>
-My method: First I guess that 台北車站 would be the answer, since it looks like the middle of the map. Next I find out that 淡水 
+My method: First I guess that 台北車站 would be the answer, since it looks like the middle of the map. Next I find out that 淡水 has highest fare $50, so I follow the red line to find the answer. Last I find out that there are serveral station around 民權西路 has the same cost to the farthest station which is 45$, so I choose 民權西路 as my answer.<br>
 (c) Proof:<br>
 1. Because every node in the graph has exactly one out-degree, so starting from any node -> go to the node it's pointing to -> new node -> go to the node it's pointing to .... This process can go forever, since every node has an out-degree.<br>
 2. Because the sequence above is infinite, and the nodes in the graph are finite. So we can easily find out that there must be a node that appears at least twice in the sequence. (because the sequence > n)<br>
 3. There exist a pointing cycle, since there exist at least two same node in the sequence.<br>
+(d) & (e) Algorithm:<br>
+<br>
+(f) & (g) Algorithm:<br>
+<br>
+Problem 6:<br>
+(a) <img src="./ada_9.jpg" style="zoom:30%" /><br>
+(b) <img src="./ada_7.jpg" style="zoom:30%" /><br>
+(c)<br>
+(d) <img src="./ada_8.jpg" style="zoom:30%" /><br>

@@ -35,9 +35,9 @@ Time complexity: Reversing the graph cost O(V + E) = O(2*n) = O(n). Traversing w
 <br>
 (f) & (g) Algorithm:<br>
 1. Find all strongly connected component.<br>
-2. Set the answer of all vertex in SCC infinity, and marked it visited.<br>
-3. Run DFS on the vertex that hasn't been visited, if its child answer is infinity its answer is infinity, else its answer = child answer + 1.<br>
-Correctness: The algorithm works by changing the graph into a DAG which can simplify the question. By running DFS you can get the answer from its child with easy caculate.<br>
+2. Set the answer of all vertex in the SCC with components >= 2 to infinity, and marked it visited. (dismiss the ones that have only one vertex as component)<br>
+3. Run DFS on the vertex that hasn't been visited, if its child answer is infinity its answer is infinity, else its answer = child answer + 1. (leaf node's child answer = 0)<br>
+Correctness: The algorithm works by changing the graph into a DAG which can simplify the question. By running DFS you can get the answer from its child with easy computation.<br>
 Time complexity: Finding SCC costs O(V + E). Runnig DFS costs O(V + E). Total time complexity = O(V + E).<br>
 <div style="page-break-after: always;"></div>
 <br>

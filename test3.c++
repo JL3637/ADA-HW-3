@@ -109,12 +109,12 @@ int main(){
         }
     }
     DP(n, m);
-    /*for(int i = 0; i <= n; i++){
+    for(int i = 0; i <= n; i++){
         for(int j = 0; j <= m; j++){
             printf("%lld ", ans[i][j]);
         }
         printf("\n");
-    }*/
+    }
     printf("%lld", ans[n][m]);
 
 
